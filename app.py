@@ -43,16 +43,31 @@ if st.button("Calculate & Save Record"):
     else:
         st.error("Please enter a student name first!")
 
-# --- STEP 3: VIEW SAVED DATA (In the Sidebar!) ---
-st.sidebar.header("Saved Records History") # Added .sidebar
+# --- STEP 3: VIEW & MANAGE DATA ---
+st.sidebar.header("Saved Records History")
 
 if os.path.exists("records.txt"):
+    # 1. READ: We now read the file line by line into a list
     with open("records.txt", "r") as f:
-        saved_data = f.read()
-        st.sidebar.text(saved_data) # Added .sidebar
+        lines = f.readlines()
     
-    if st.sidebar.button("Clear All Records"): # Added .sidebar
+    # 2. DISPLAY: We loop through the list to show each student
+    for line in lines:
+        st.sidebar.text(line.strip())
+
+    st.sidebar.divider()
+
+    # 3. NEW BUTTON: Logic to remove only the last entry
+    if st.sidebar.button("Delete Last Entry"):
+        if lines:
+            lines.pop()  # This removes the last student from the list
+            with open("records.txt", "w") as f: # "w" clears the file to overwrite it
+                f.writelines(lines) # Saves the list back without the deleted student
+            st.rerun() # Refreshes the app to show the change
+
+    # 4. YOUR ORIGINAL BUTTON: Wipes everything
+    if st.sidebar.button("Clear All Records"):
         os.remove("records.txt")
         st.rerun()
 else:
-    st.sidebar.write("No records saved yet.") # Added .sidebar
+    st.sidebar.write("No records saved yet.")
