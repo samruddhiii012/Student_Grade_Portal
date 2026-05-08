@@ -43,19 +43,16 @@ if st.button("Calculate & Save Record"):
     else:
         st.error("Please enter a student name first!")
 
-# --- STEP 3: VIEW SAVED DATA ---
-st.divider()
-st.header(" Saved Records History")
+# --- STEP 3: VIEW SAVED DATA (In the Sidebar!) ---
+st.sidebar.header("Saved Records History") # Added .sidebar
 
 if os.path.exists("records.txt"):
     with open("records.txt", "r") as f:
-        # Read the file and show each line
         saved_data = f.read()
-        st.text(saved_data)
+        st.sidebar.text(saved_data) # Added .sidebar
     
-    # Optional: Button to clear history
-    if st.button("Clear All Records"):
+    if st.sidebar.button("Clear All Records"): # Added .sidebar
         os.remove("records.txt")
         st.rerun()
 else:
-    st.write("No records saved yet.")
+    st.sidebar.write("No records saved yet.") # Added .sidebar
