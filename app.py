@@ -34,6 +34,7 @@ if st.button("Calculate & Save Record"):
 
         # Display current result
         st.success(f"Done! {name} got Grade: {grade}")
+        st.success("Record Saved Successfully!")
         
         # Save to a text file (The "Database")
         # format: Name | Total | Average | Grade
